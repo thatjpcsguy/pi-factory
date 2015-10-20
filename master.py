@@ -62,6 +62,10 @@ def update_name(client_id):
     save_db(clients)
     return redirect('/clients', 302)
 
+@app.route('/text/<word>')
+def word(word):
+    return render_template('word.html', word=word)
+
 @app.route('/remove/<client_id>')
 def remove(client_id):
     clients = load_db()
