@@ -60,13 +60,9 @@ def remove(client_id):
 
 
 @app.route('/action/<client_id>/<action>')
-def remove(client_id):
+def action(client_id, action):
     clients = load_db()
     
-
-
-
-
 
 
     save_db(clients)
