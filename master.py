@@ -21,7 +21,7 @@ def save_db(db):
 @app.route('/clients')
 def clients():
     clients = load_db()
-    offline = datetime.datetime.now() - datetime.timedelta(minutes=15)
+    offline = datetime.datetime.now() - datetime.timedelta(minutes=4)
     return render_template('clients.html', clients=clients, offline=offline)
 
 @app.route('/register/<client_id>')
