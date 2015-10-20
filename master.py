@@ -45,7 +45,7 @@ def register(client_id):
 
 
 @app.route('/update-url/<client_id>')
-def update(client_id):
+def update_url(client_id):
     clients = load_db()
 
     clients[client_id]['url'] = request.args.get('url')
@@ -54,7 +54,7 @@ def update(client_id):
     return redirect('/clients', 302)
 
 @app.route('/update-name/<client_id>')
-def update(client_id):
+def update_name(client_id):
     clients = load_db()
 
     clients[client_id]['name'] = request.args.get('name')
