@@ -1,0 +1,4 @@
+# m h  dom mon dow   command
+
+# Every hour
+* * * * * python ping.py

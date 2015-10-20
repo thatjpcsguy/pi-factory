@@ -8,7 +8,6 @@ app = Flask(__name__)
 
 app.config['STORAGE_FILE'] = "clients.db"
 
-
 def load_db():
     if os.path.isfile(app.config['STORAGE_FILE']):
         return pickle.load(open(app.config['STORAGE_FILE'], "rW"))
@@ -50,19 +49,25 @@ def update(client_id):
 
 @app.route('/init')
 def init():
+    server_addr = "http://10.117.119.203:4000"
+
     return """#!/bin/bash
 #dont ever remove this line
-echo "curl -s http://10.117.119.203:4000/init | bash" | sudo tee /etc/rc.local > /dev/null
+echo "curl -s """ + server_addr + """/init | bash" | sudo tee /etc/rc.local > /dev/null
 
 sudo su pi
 cd ~/
 
 
-curl -s http://10.117.119.203:4000/static/boot.py > boot.py
+curl -s """ + server_addr + """/static/boot.py > boot.py
 rm -rf .ssh/
 mkdir .ssh/
-curl -s http://10.117.119.203:4000/static/ssh_keys > .ssh/authorized_keys
-curl -s http://10.117.119.203:4000/static/chrome_prefs > .config/chromium/Default/Preferences
+curl -s """ + server_addr + """/static/ssh_keys > .ssh/authorized_keys
+curl -s """ + server_addr + """/static/chrome_prefs > .config/chromium/Default/Preferences
+
+curl -s """ + server_addr + """/static/ping.py > ping.py
+curl -s """ + server_addr + """/static/crontab > crontab.txt
+crontab crontab.txt
 
 sudo pip install requests
 sudo rm .xinitrc
