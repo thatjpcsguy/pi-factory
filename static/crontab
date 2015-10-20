@@ -1,7 +1,7 @@
 # m h  dom mon dow   command
 
 # Every hour
-* * * * * python ping.py
+* */2 * * * python ping.py
 * */6 * * * sudo reboot -n
 * * * * * DISPLAY=:0 ./refresh.sh
 
