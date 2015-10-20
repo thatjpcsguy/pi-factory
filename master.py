@@ -52,6 +52,15 @@ def update(client_id):
     save_db(clients)
     return redirect('/clients', 302)
 
+@app.route('/update-name/<client_id>')
+def update(client_id):
+    clients = load_db()
+
+    clients[client_id]['name'] = request.args.get('name')
+
+    save_db(clients)
+    return redirect('/clients', 302)
+
 @app.route('/remove/<client_id>')
 def remove(client_id):
     clients = load_db()
