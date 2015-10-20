@@ -65,7 +65,7 @@ def update_name(client_id):
 @app.route('/remove/<client_id>')
 def remove(client_id):
     clients = load_db()
-    os.system('ssh -o "StrictHostKeyChecking no" pi@' + clients[client_id]['ip_address'] + ' "sudo reboot -n"')
+    os.system('ssh -o "StrictHostKeyChecking no" pi@' + clients[client_id]['ip_address'] + ' "sudo reboot -n" &')
     clients.pop(client_id, None)
     save_db(clients)
     return redirect('/clients', 302)
@@ -76,7 +76,7 @@ def action(client_id, action):
     clients = load_db()
     
     if action == 'reboot':
-        os.system('ssh -o "StrictHostKeyChecking no" pi@' + clients[client_id]['ip_address'] + ' "sudo reboot -n"')
+        os.system('ssh -o "StrictHostKeyChecking no" pi@' + clients[client_id]['ip_address'] + ' "sudo reboot -n" &')
 
     save_db(clients)
     return redirect('/clients', 302)
