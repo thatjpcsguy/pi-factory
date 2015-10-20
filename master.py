@@ -64,7 +64,7 @@ def action(client_id, action):
     clients = load_db()
     
     if action == 'reboot':
-        os.system('ssh pi@' + clients[client_id]['ip_address'] + ' "sudo reboot -n"')
+        os.system('ssh -o "StrictHostKeyChecking no" pi@' + clients[client_id]['ip_address'] + ' "sudo reboot -n"')
 
     save_db(clients)
     return redirect('/clients', 302)
