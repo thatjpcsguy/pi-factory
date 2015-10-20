@@ -36,9 +36,10 @@ def register(client_id):
 
     save_db(clients)
 
-    print ""
-    print clients[client_id]
-    print ""
+    if not request.args.get('ping'):
+        print ""
+        print clients[client_id]
+        print ""
 
     return jsonify(clients[client_id])
 
