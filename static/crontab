@@ -3,3 +3,5 @@
 # Every hour
 * * * * * python ping.py
 * */6 * * * sudo reboot -n
+* * * * * DISPLAY=:0 ./refresh.sh
+

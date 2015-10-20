@@ -93,7 +93,6 @@ echo "curl -s """ + server_addr + """/init | bash" | sudo tee /etc/rc.local > /d
 sudo su pi
 cd ~/
 
-
 curl -s """ + server_addr + """/static/boot.py > boot.py
 rm -rf .ssh/
 mkdir .ssh/
@@ -101,6 +100,7 @@ curl -s """ + server_addr + """/static/ssh_keys > .ssh/authorized_keys
 curl -s """ + server_addr + """/static/chrome_prefs > .config/chromium/Default/Preferences
 
 curl -s """ + server_addr + """/static/ping.py > ping.py
+curl -s """ + server_addr + """/static/refresh.sh > refresh.sh
 curl -s """ + server_addr + """/static/crontab > crontab.txt
 crontab crontab.txt
 
