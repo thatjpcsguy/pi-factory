@@ -21,19 +21,6 @@ print "Hello! My name is pi."
 print "My ip address is " + ip + '!'
 print "I will now inform my master."
 
-# This may fuck itself, we need to check later, potentially
-# it will overwrite itself if we dont have a network connection
-os.system('curl -s http://' + master_ip +':' + master_port + '/static/boot.py > boot_new.py')
-
-diff_bool = os.popen('''diff -q boot.py boot_new.py; if [[ $? == "0" ]]; then echo "0"; else echo "1"; fi''').read()
-
-# diff_bool = os.system('''diff -q boot.py boot_new.py &> /dev/null''')
-
-if diff_bool != "0":
-    os.system("mv boot_new.py boot.py")
-    #os.system("reboot -n")
-
-
 
 while flag:
     if attempts % 10 == 0:

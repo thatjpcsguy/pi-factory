@@ -18,6 +18,11 @@ def save_db(db):
     return True
 
 
+@app.route('/clients')
+def clients():
+    clients = load_db()
+    return jsonify(clients)
+
 @app.route('/register/<client_id>')
 def register(client_id):
     clients = load_db()
