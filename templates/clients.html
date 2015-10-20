@@ -1,0 +1,37 @@
+<style type="text/css">
+	.green {
+		color: green;
+	}
+
+	.red {
+		color: red;
+	}
+
+</style>
+
+
+<table>
+
+{% for client in clients %}
+
+<tr>
+	<td>{{ clients[client]['ip_address'] }}</td>
+	<td>{{ clients[client]['mac_address'] }}</td>
+	<td>{{ clients[client]['url'] }}</td>
+
+	<td>{% if clients[client]['last_time'] > offline %}
+	<span class="green">online</span>
+	{% else %}
+	<span class="red">offline</span>
+	{% endif %}
+	</td>
+
+
+	<td><a href="/remove/{{ clients[client]['mac_address'] }}">remove</a></td>
+	<td><a href="/action/{{ clients[client]['mac_address'] }}/reboot">reboot</a></td>
+</tr>
+
+{% endfor %} 
+
+</table>
+

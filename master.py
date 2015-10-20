@@ -1,4 +1,4 @@
-from flask import Flask, request, jsonify
+from flask import Flask, request, jsonify, render_template, redirect
 import json
 import cPickle as pickle
 import os
@@ -21,7 +21,8 @@ def save_db(db):
 @app.route('/clients')
 def clients():
     clients = load_db()
-    return jsonify(clients)
+    offline = datetime.datetime.now() - datetime.timedelta(minutes=15)
+    return render_template('clients.html', clients=clients, offline=offline)
 
 @app.route('/register/<client_id>')
 def register(client_id):
@@ -50,6 +51,26 @@ def update(client_id):
 
     return jsonify({'success': save_db(clients)})
 
+@app.route('/remove/<client_id>')
+def remove(client_id):
+    clients = load_db()
+    clients.pop(client_id, None)
+    save_db(clients)
+    return redirect('/clients', 302)
+
+
+@app.route('/action/<client_id>/<action>')
+def remove(client_id):
+    clients = load_db()
+    
+
+
+
+
+
+
+    save_db(clients)
+    return redirect('/clients', 302)
 
 
 @app.route('/init')
