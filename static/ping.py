@@ -12,10 +12,5 @@ mac = hex(get_mac())
 ip_string = os.popen('ip addr show wlan0 | grep inet').read()
 ip = ip_string.split()[1].split('/')[0]
 
-if attempts % 10 == 0:
-    request_ip = master_lan_ip
-else:
-    request_ip = master_ip
-
-request_string = 'http://' + request_ip + ':' + master_port + '/register/' + mac + '?' + 'ip=' + ip + '&ping=true'
+request_string = 'http://' + master_ip + ':' + master_port + '/register/' + mac + '?' + 'ip=' + ip + '&ping=true'
 r = requests.get(request_string)
