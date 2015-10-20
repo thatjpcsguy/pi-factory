@@ -63,7 +63,8 @@ def remove(client_id):
 def action(client_id, action):
     clients = load_db()
     
-
+    if action == 'reboot':
+        os.system('ssh pi@' + clients[client_id]['ip_address'] + ' "sudo reboot -n"')
 
     save_db(clients)
     return redirect('/clients', 302)

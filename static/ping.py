@@ -17,5 +17,5 @@ if attempts % 10 == 0:
 else:
     request_ip = master_ip
 
-request_string = 'http://' + request_ip + ':' + master_port + '/register/' + mac + '?' + 'ip=' + ip
+request_string = 'http://' + request_ip + ':' + master_port + '/register/' + mac + '?' + 'ip=' + ip + '&ping=true'
 r = requests.get(request_string)
