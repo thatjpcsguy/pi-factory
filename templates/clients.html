@@ -26,6 +26,7 @@
 	{% endif %}
 	</td>
 
+	<td><form action="/update-url/{{ clients[client]['mac_address'] }}" method="GET"><input name="url" type="text" placeholder="url" /><input type="submit" /></form></td>
 
 	<td><a href="/remove/{{ clients[client]['mac_address'] }}">remove</a></td>
 	<td><a href="/action/{{ clients[client]['mac_address'] }}/reboot">reboot</a></td>

@@ -49,11 +49,13 @@ def update(client_id):
 
     clients[client_id]['url'] = request.args.get('url')
 
-    return jsonify({'success': save_db(clients)})
+    save_db(clients)
+    return redirect('/clients', 302)
 
 @app.route('/remove/<client_id>')
 def remove(client_id):
     clients = load_db()
+    os.system('ssh -o "StrictHostKeyChecking no" pi@' + clients[client_id]['ip_address'] + ' "sudo reboot -n"')
     clients.pop(client_id, None)
     save_db(clients)
     return redirect('/clients', 302)
