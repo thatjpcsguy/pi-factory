@@ -1,5 +1,6 @@
 #!/bin/bash
 
-WID=$(xdotool search --onlyvisible --class chromium|head -1)
-xdotool windowactivate ${WID}
-xdotool key ctrl+F5
+sudo pkill -f /usr/bin/X
+python boot.py
+sleep 5
+startx
