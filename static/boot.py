@@ -5,7 +5,7 @@ import time
 import os
 
 sleep_time = 5
-master_port = '4000'
+master_port = '8000'
 master_ip = '10.117.119.8'
 mac = hex(get_mac())
 
@@ -22,7 +22,7 @@ print "I will now inform my master."
 
 while True:
     print('Trying to contact Master Pi on ''...\n')
-    request_string = 'http://' + request_ip + ':' + master_port + '/register/' + mac + '?' + 'ip=' + ip
+    request_string = 'http://' + master_ip + ':' + master_port + '/register/' + mac + '?' + 'ip=' + ip
     r = requests.get(request_string)
     response = r.json()
     if r.status_code is 200:

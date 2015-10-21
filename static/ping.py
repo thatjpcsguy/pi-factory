@@ -6,7 +6,7 @@ import os
 
 master_port = '4000'
 master_ip = '10.117.119.203'
-master_lan_ip = '10.117.108.130'
+
 mac = hex(get_mac())
 
 ip_string = os.popen('ip addr show wlan0 | grep inet').read()
