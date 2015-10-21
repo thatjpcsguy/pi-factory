@@ -64,7 +64,7 @@ def update_url(client_id):
 
     os.system('ssh -o "StrictHostKeyChecking no" pi@' + clients[client_id]['ip_address'] + ' "./refresh.sh" &')
 
-    return redirect('/clients', 302)
+    return redirect('/', 302)
 
 @app.route('/update-name/<client_id>')
 def update_name(client_id):
@@ -73,7 +73,7 @@ def update_name(client_id):
     clients[client_id]['name'] = request.args.get('name')
 
     save_db(clients)
-    return redirect('/clients', 302)
+    return redirect('/', 302)
 
 @app.route('/text/<word>')
 def word(word):
@@ -84,7 +84,7 @@ def remove(client_id):
     clients = load_db()
     clients.pop(client_id, None)
     save_db(clients)
-    return redirect('/clients', 302)
+    return redirect('/', 302)
 
 
 @app.route('/action/<client_id>/<action>')
@@ -95,7 +95,7 @@ def action(client_id, action):
         os.system('ssh -o "StrictHostKeyChecking no" pi@' + clients[client_id]['ip_address'] + ' "sudo reboot -n" &')
 
     save_db(clients)
-    return redirect('/clients', 302)
+    return redirect('/', 302)
 
 
 @app.route('/init')
@@ -108,23 +108,23 @@ def init():
 def anti_gandalf():
     clients = load_db()
     for i in clients:
-        os.system('ssh -o "StrictHostKeyChecking no" pi@' + clients[client_id]['ip_address'] + ' "./refresh.sh" &')
-    return redirect('/clients', 302)
+        os.system('ssh -o "StrictHostKeyChecking no" pi@' + clients[i]['ip_address'] + ' "./refresh.sh" &')
+    return redirect('/', 302)
 
 
 @app.route('/gandalf-button')
 def gandalf_button():
     clients = load_db()
     for i in clients:
-        os.system('ssh -o "StrictHostKeyChecking no" pi@'+ clients[i]['ip_address']+' "./gandalf.sh" &')
-    return redirect('/clients', 302)
+        os.system('ssh -o "StrictHostKeyChecking no" pi@' + clients[i]['ip_address'] + ' "./gandalf.sh" &')
+    return redirect('/', 302)
 
 @app.route('/reboot-all')
 def reboot_all():
     clients = load_db()
     for i in clients:
         os.system('ssh -o "StrictHostKeyChecking no" pi@'+ clients[i]['ip_address']+' "sudo reboot -n" &')
-    return redirect('/clients', 302)
+    return redirect('/', 302)
 
 
 @app.route('/gandalf')
