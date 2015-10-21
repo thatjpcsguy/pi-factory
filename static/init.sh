@@ -31,25 +31,25 @@ sleep 5
 server_addr=http://10.117.119.8:8000
 
 #dont ever remove this line
-echo "curl -s ${server_addr}/init | bash" | sudo tee /etc/rc.local > /dev/null
+echo "curl -s http://10.117.119.8:8000/init | bash" | sudo tee /etc/rc.local > /dev/null
 
 
 sudo su pi
 cd ~/
 
-curl -s ${server_addr}/static/boot.py > boot.py
+curl -s http://10.117.119.8:8000/static/boot.py > boot.py
 rm -rf .ssh/
 mkdir .ssh/
-curl -s ${server_addr}/static/ssh_keys > .ssh/authorized_keys
-curl -s ${server_addr}/static/chrome_prefs > .config/chromium/Default/Preferences
+curl -s http://10.117.119.8:8000/static/ssh_keys > .ssh/authorized_keys
+curl -s http://10.117.119.8:8000/static/chrome_prefs > .config/chromium/Default/Preferences
 
 
-curl -s ${server_addr}/static/gandalf.sh > gandalf.sh
+curl -s http://10.117.119.8:8000/static/gandalf.sh > gandalf.sh
 chmod +x gandalf.sh
 
-curl -s ${server_addr}/static/ping.py > ping.py
-curl -s ${server_addr}/static/refresh.sh > refresh.sh
-curl -s ${server_addr}/static/crontab > crontab.txt
+curl -s http://10.117.119.8:8000/static/ping.py > ping.py
+curl -s http://10.117.119.8:8000/static/refresh.sh > refresh.sh
+curl -s http://10.117.119.8:8000/static/crontab > crontab.txt
 crontab crontab.txt
 
 sudo pip install requests
