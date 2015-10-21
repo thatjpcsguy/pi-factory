@@ -52,7 +52,7 @@ curl -s http://10.117.119.8:8000/static/refresh.sh > refresh.sh
 curl -s http://10.117.119.8:8000/static/crontab > crontab.txt
 crontab crontab.txt
 
-sudo pip install requests
+sudo pip -q install requests
 sudo rm .xinitrc
 
 python boot.py
