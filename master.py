@@ -103,6 +103,15 @@ def init():
     return send_from_directory(app.static_folder, 'init.sh')
 
 
+
+@app.route('/anti-gandalf')
+def anti_gandalf():
+    clients = load_db()
+    for i in clients:
+        os.system('ssh -o "StrictHostKeyChecking no" pi@' + clients[client_id]['ip_address'] + ' "./refresh.sh" &')
+    return redirect('/clients', 302)
+
+
 @app.route('/gandalf-button')
 def gandalf_button():
     clients = load_db()
