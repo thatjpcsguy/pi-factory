@@ -6,11 +6,9 @@ import os
 
 sleep_time = 5
 master_port = '4000'
-master_ip = '10.117.119.203'
-master_lan_ip = '10.117.108.130'
+master_ip = '10.117.119.8'
 mac = hex(get_mac())
 
-flag = True
 chrome_url = None
 attempts = 1
 
@@ -22,11 +20,7 @@ print "My ip address is " + ip + '!'
 print "I will now inform my master."
 
 
-while flag:
-    if attempts % 10 == 0:
-        request_ip = master_lan_ip
-    else:
-        request_ip = master_ip
+while True:
     print('Trying to contact Master Pi on ''...\n')
     request_string = 'http://' + request_ip + ':' + master_port + '/register/' + mac + '?' + 'ip=' + ip
     r = requests.get(request_string)
