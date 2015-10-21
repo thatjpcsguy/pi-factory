@@ -15,10 +15,14 @@
 
 <table>
 
-{% for client in clients %}
+{% for client in keys %}
 
 <tr>
+	{% if not clients[client]['name'] %}
 	<td><form action="/update-name/{{ clients[client]['mac_address'] }}" method="GET"><input name="name" type="text" placeholder="name" value="{{ clients[client]['name'] }}" /><input type="submit" /></form></td>
+	{% else %}
+	<td>{{ clients[client]['name'] }}</td>
+	{% endif %}
 
 	<td>{{ clients[client]['ip_address'] }}</td>
 	<td>{{ clients[client]['mac_address'] }}</td>

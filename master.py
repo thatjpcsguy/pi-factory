@@ -19,10 +19,20 @@ def save_db(db):
 
 
 @app.route('/clients')
+def r():
+    return redirect('/', 302)
+
+@app.route('/')
 def clients():
     clients = load_db()
     offline = datetime.datetime.now() - datetime.timedelta(minutes=4)
-    return render_template('clients.html', clients=clients, offline=offline)
+
+    k = []
+    for key in clients:
+        k.append(key)
+    k = sorted(k)
+
+    return render_template('clients.html', clients=clients, offline=offline, keys=k)
 
 @app.route('/register/<client_id>')
 def register(client_id):
