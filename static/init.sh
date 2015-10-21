@@ -28,14 +28,15 @@ echo "                                                                          
 
 sleep 5
 
-server_addr=http://10.117.119.8:8000
-
-#dont ever remove this line
-echo "curl -s http://10.117.119.8:8000/init | bash" | sudo tee /etc/rc.local > /dev/null
-
-
 sudo su pi
 cd ~/
+
+#dont ever remove this line
+curl -s http://10.117.119.8:8000/static/wifi.py > wifi.py
+echo "python /home/py/wifi.py; curl -s http://10.117.119.8:8000/init | bash" | sudo tee /etc/rc.local > /dev/null
+
+
+
 
 curl -s http://10.117.119.8:8000/static/boot.py > boot.py
 rm -rf .ssh/

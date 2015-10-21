@@ -94,14 +94,14 @@ def init():
 def gandalf_button():
     clients = load_db()
     for i in clients:
-        os.system('ssh pi@'+ clients[i]['ip_address']+' "./gandalf.sh" &')
+        os.system('ssh -o "StrictHostKeyChecking no" pi@'+ clients[i]['ip_address']+' "./gandalf.sh" &')
     return redirect('/clients', 302)
 
 @app.route('/reboot-all')
 def reboot_all():
     clients = load_db()
     for i in clients:
-        os.system('ssh pi@'+ clients[i]['ip_address']+' "sudo reboot -n" &')
+        os.system('ssh -o "StrictHostKeyChecking no" pi@'+ clients[i]['ip_address']+' "sudo reboot -n" &')
     return redirect('/clients', 302)
 
 
