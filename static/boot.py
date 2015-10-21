@@ -19,18 +19,18 @@ print "Hello! My name is pi."
 print "My ip address is " + ip + '!'
 print "I will now inform my master."
 
-
 while True:
-    print('Trying to contact Master Pi on ' + master_ip + '...\n')
     request_string = 'http://' + master_ip + ':' + master_port + '/register/' + mac + '?' + 'ip=' + ip
     r = requests.get(request_string)
     response = r.json()
     if r.status_code is 200:
         if 'url' in response:
-            print('Url received from master ' + response['url'] + '\n')
+            print "\n\n"
+            print('URL to open will be: ' + response['url'] + '\n')
             chrome_url = response['url']
+            print "\n\n"
             break
-    print('Trying again in ' + str(sleep_time) + ' seconds\n')
+
     time.sleep(sleep_time)
 
 f = open('.xinitrc', 'w+')

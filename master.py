@@ -1,4 +1,4 @@
-from flask import Flask, request, jsonify, render_template, redirect
+from flask import Flask, request, jsonify, render_template, redirect, send_from_directory
 import json
 import cPickle as pickle
 import os
@@ -87,38 +87,7 @@ def action(client_id, action):
 
 @app.route('/init')
 def init():
-    server_addr = "http://10.117.119.8:8000"
-
-    return """#!/bin/bash
-#dont ever remove this line
-echo "curl -s """ + server_addr + """/init | bash" | sudo tee /etc/rc.local > /dev/null
-
-
-sudo su pi
-cd ~/
-
-curl -s """ + server_addr + """/static/boot.py > boot.py
-rm -rf .ssh/
-mkdir .ssh/
-curl -s """ + server_addr + """/static/ssh_keys > .ssh/authorized_keys
-curl -s """ + server_addr + """/static/chrome_prefs > .config/chromium/Default/Preferences
-
-
-curl -s """ + server_addr + """/static/gandalf.sh > gandalf.sh
-chmod +x gandalf.sh
-
-curl -s """ + server_addr + """/static/ping.py > ping.py
-curl -s """ + server_addr + """/static/refresh.sh > refresh.sh
-curl -s """ + server_addr + """/static/crontab > crontab.txt
-crontab crontab.txt
-
-sudo pip install requests
-sudo rm .xinitrc
-
-python boot.py
-
-startx
-"""
+    return send_from_directory(app.static_folder, 'init.sh')
 
 
 @app.route('/gandalf-button')
