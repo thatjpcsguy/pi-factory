@@ -69,7 +69,6 @@ def word(word):
 @app.route('/remove/<client_id>')
 def remove(client_id):
     clients = load_db()
-    os.system('ssh -o "StrictHostKeyChecking no" pi@' + clients[client_id]['ip_address'] + ' "sudo reboot -n" &')
     clients.pop(client_id, None)
     save_db(clients)
     return redirect('/clients', 302)
@@ -94,6 +93,7 @@ def init():
 #dont ever remove this line
 echo "curl -s """ + server_addr + """/init | bash" | sudo tee /etc/rc.local > /dev/null
 
+
 sudo su pi
 cd ~/
 
@@ -102,6 +102,10 @@ rm -rf .ssh/
 mkdir .ssh/
 curl -s """ + server_addr + """/static/ssh_keys > .ssh/authorized_keys
 curl -s """ + server_addr + """/static/chrome_prefs > .config/chromium/Default/Preferences
+
+
+curl -s """ + server_addr + """/static/gandalf.sh > gandalf.sh
+chmod +x gandalf.sh
 
 curl -s """ + server_addr + """/static/ping.py > ping.py
 curl -s """ + server_addr + """/static/refresh.sh > refresh.sh
@@ -116,6 +120,40 @@ python boot.py
 startx
 """
 
+
+@app.route('/gandalf-button')
+def gandalf_button():
+    clients = load_db()
+    for i in clients:
+        os.system('ssh pi@'+ clients[i]['ip_address']+' "./gandalf.sh" &')
+    return redirect('/clients', 302)
+
+@app.route('/reboot-all')
+def reboot_all():
+    clients = load_db()
+    for i in clients:
+        os.system('ssh pi@'+ clients[i]['ip_address']+' "sudo reboot -n" &')
+    return redirect('/clients', 302)
+
+
+@app.route('/gandalf')
+def gandalf():
+    return """
+<style>
+html, body {
+margin: 0;
+padding: 0;
+}
+img {
+    text-align: center;
+    width: 1920px;
+
+}
+
+</style>
+<img src="http://4.bp.blogspot.com/-fEXyKe5WLmk/UZ0uDdCJrCI/AAAAAAAAL_o/kS5Jzlu7IDE/s400/gandalf.gif" />
+
+"""
 
 
 if __name__ == "__main__":
