@@ -21,7 +21,7 @@ print "I will now inform my master."
 
 
 while True:
-    print('Trying to contact Master Pi on ''...\n')
+    print('Trying to contact Master Pi on ' + master_ip + '...\n')
     request_string = 'http://' + master_ip + ':' + master_port + '/register/' + mac + '?' + 'ip=' + ip
     r = requests.get(request_string)
     response = r.json()
