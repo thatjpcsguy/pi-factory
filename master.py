@@ -52,9 +52,8 @@ def update_url(client_id):
 
     save_db(clients)
 
-    os.system('ssh -o "StrictHostKeyChecking no" pi@' + clients[client_id]['ip_address'] + ' "sudo pkill -f /usr/bin/X" &')
     os.system('ssh -o "StrictHostKeyChecking no" pi@' + clients[client_id]['ip_address'] + ' "python boot.py" &')
-    os.system('ssh -o "StrictHostKeyChecking no" pi@' + clients[client_id]['ip_address'] + ' "startx" &')
+    os.system('ssh -o "StrictHostKeyChecking no" pi@' + clients[client_id]['ip_address'] + ' "sudo pkill -f /usr/bin/X; startx" &')
 
     return redirect('/clients', 302)
 
