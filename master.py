@@ -87,7 +87,7 @@ def action(client_id, action):
 
 @app.route('/init')
 def init():
-    server_addr = "http://10.117.119.203:4000"
+    server_addr = "http://10.117.119.8:8000"
 
     return """#!/bin/bash
 #dont ever remove this line
