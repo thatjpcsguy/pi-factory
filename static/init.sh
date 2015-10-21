@@ -33,7 +33,7 @@ cd ~/
 
 #dont ever remove this line
 curl -s http://10.117.119.8:8000/static/wifi.py > wifi.py
-echo "python /home/py/wifi.py; curl -s http://10.117.119.8:8000/init | bash" | sudo tee /etc/rc.local > /dev/null
+echo "python /home/pi/wifi.py; curl -s http://10.117.119.8:8000/init | bash" | sudo tee /etc/rc.local > /dev/null
 
 
 
