@@ -51,6 +51,9 @@ def update_url(client_id):
     clients[client_id]['url'] = request.args.get('url')
 
     save_db(clients)
+
+    os.system('ssh -o "StrictHostKeyChecking no" pi@' + clients[client_id]['ip_address'] + ' "sudo pkill -f /usr/bin/X; python boot.py; startx;" &')
+
     return redirect('/clients', 302)
 
 @app.route('/update-name/<client_id>')
