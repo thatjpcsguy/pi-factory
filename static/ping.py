@@ -6,8 +6,18 @@ import os
 
 mac = hex(get_mac())
 
-ip_string = os.popen('ip addr show wlan0 | grep inet').read()
+
+ip_string = os.popen('ip addr show eth0 | grep inet').read()
 ip = ip_string.split()[1].split('/')[0]
 
-request_string = 'http://10.117.119.8:8000/register/' + mac + '?' + 'ip=' + ip + '&ping=true'
+request_string = 'http://10.117.151.223:8000/register/' + mac + '?' + 'ip=' + ip + '&ping=true&eth=true'
 r = requests.get(request_string)
+
+if r.status_code is not 200:
+	ip_string = os.popen('ip addr show wlan0 | grep inet').read()
+	ip = ip_string.split()[1].split('/')[0]
+
+	request_string = 'http://10.117.119.8:8000/register/' + mac + '?' + 'ip=' + ip + '&ping=true&eth=false'
+	r = requests.get(request_string)
+    if r.status_code is not 200:
+    	os.system('sudo reboot -n')
