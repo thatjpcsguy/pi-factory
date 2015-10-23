@@ -42,10 +42,7 @@ def r():
 def clients():
     clients = query_db('''SELECT client_id, url, name, ip_address, 
         CASE WHEN last_seen > datetime(current_timestamp, '-4 minute') THEN 'online' ELSE 'offline' END as online from clients ORDER BY name DESC''')
-    print clients
-
     offline = datetime.datetime.now() - datetime.timedelta(minutes=4)
-
     return render_template('clients.html', clients=clients, offline=offline)
 
 @app.route('/register/<client_id>')
