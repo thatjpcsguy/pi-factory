@@ -52,7 +52,7 @@ def clients():
 def register(client_id):
     res = query_db('SELECT client_id FROM clients WHERE client_id = ?', [client_id], one=True)
     if res:
-        query_db('UPDATE clients SET ip = ?, last_seen = current_timestamp WHERE client_id = ?', [request.args.get('ip'), client_id])
+        query_db('UPDATE clients SET ip_address = ?, last_seen = current_timestamp WHERE client_id = ?', [request.args.get('ip'), client_id])
     else:
         query_db('INSERT INTO clients (client_id, ip_address, last_seen) VALUES (?, ?, current_timestamp)', [client_id, request.args.get('ip')])
 
