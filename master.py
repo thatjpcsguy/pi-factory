@@ -4,18 +4,34 @@ import cPickle as pickle
 import os
 import datetime
 
+import sqlite3
+from flask import g
+
 app = Flask(__name__)
 
-app.config['STORAGE_FILE'] = "clients.db"
+def make_dicts(cursor, row):
+    return dict((cursor.description[idx][0], value)
+                for idx, value in enumerate(row))
 
-def load_db():
-    if os.path.isfile(app.config['STORAGE_FILE']):
-        return pickle.load(open(app.config['STORAGE_FILE'], "rW"))
-    return {}
+def connect_db():
+    return sqlite3.connect('clients.db')
 
-def save_db(db):
-    pickle.dump(db, open(app.config['STORAGE_FILE'], "wb"))
-    return True
+@app.before_request
+def before_request():
+    g.db = connect_db()
+    g.db.row_factory = make_dicts
+
+
+@app.teardown_request
+def teardown_request(exception):
+    if hasattr(g, 'db'):
+        g.db.commit()
+        g.db.close()
+
+def query_db(query, args=(), one=False):
+    cur = g.db.execute(query, args)
+    rv = cur.fetchall()
+    return (rv[0] if rv else None) if one else rv
 
 
 @app.route('/clients')
@@ -24,55 +40,37 @@ def r():
 
 @app.route('/')
 def clients():
-    clients = load_db()
+    clients = query_db('''SELECT client_id, url, name, ip_address, 
+        CASE WHEN last_seen > datetime(current_timestamp, '-4 minute') THEN 'online' ELSE 'offline' END as online from clients ORDER BY name DESC''')
+    print clients
+
     offline = datetime.datetime.now() - datetime.timedelta(minutes=4)
 
-    k = []
-    for key in clients:
-        k.append(key)
-    k = sorted(k)
-
-    return render_template('clients.html', clients=clients, offline=offline, keys=k)
+    return render_template('clients.html', clients=clients, offline=offline)
 
 @app.route('/register/<client_id>')
 def register(client_id):
-    clients = load_db()
-    
-    if client_id not in clients:
-        clients[client_id] = {'mac_address': client_id}
+    query_db('''INSERT OR REPLACE INTO clients (client_id, ip_address, last_seen) 
+        VALUES (?, ?, current_timestamp)''', [client_id, request.args.get('ip')])
 
-    clients[client_id]['ip_address'] = request.args.get('ip')
-    clients[client_id]['last_time'] = datetime.datetime.now()
+    client = query_db('SELECT * FROM clients WHERE client_id = ?', [client_id], one=True)
 
-    save_db(clients)
+    clients = query_db('SELECT * from clients ORDER BY name DESC')
+    print clients
 
-    if not request.args.get('ping'):
-        print ""
-        print clients[client_id]
-        print ""
-
-    return jsonify(clients[client_id])
+    return jsonify(client)
 
 
 @app.route('/update-url/<client_id>')
 def update_url(client_id):
-    clients = load_db()
-
-    clients[client_id]['url'] = request.args.get('url')
-
-    save_db(clients)
-
-    os.system('ssh -o "StrictHostKeyChecking no" pi@' + clients[client_id]['ip_address'] + ' "./refresh.sh" &')
-
+    query_db('UPDATE clients SET url = ? WHERE client_id = ?', [request.args.get('url'), client_id])
+    client = query_db('SELECT * FROM clients WHERE client_id = ?', [client_id], one=True)
+    os.system('ssh -o "StrictHostKeyChecking no" pi@' + client['ip_address'] + ' "./refresh.sh" &')
     return redirect('/', 302)
 
 @app.route('/update-name/<client_id>')
 def update_name(client_id):
-    clients = load_db()
-
-    clients[client_id]['name'] = request.args.get('name')
-
-    save_db(clients)
+    query_db('UPDATE clients SET name = ? WHERE client_id = ?', [request.args.get('name'), client_id])
     return redirect('/', 302)
 
 @app.route('/text/<word>')
@@ -81,20 +79,15 @@ def word(word):
 
 @app.route('/remove/<client_id>')
 def remove(client_id):
-    clients = load_db()
-    clients.pop(client_id, None)
-    save_db(clients)
+    query_db('DELETE FROM clients WHERE client_id = ?', [client_id])
     return redirect('/', 302)
 
 
-@app.route('/action/<client_id>/<action>')
-def action(client_id, action):
-    clients = load_db()
-    
-    if action == 'reboot':
-        os.system('ssh -o "StrictHostKeyChecking no" pi@' + clients[client_id]['ip_address'] + ' "sudo reboot -n" &')
+@app.route('/action/<client_id>/reboot')
+def reboot(client_id, action):
+    client = query_db('SELECT * FROM clients WHERE client_id = ?', [client_id], one=True)
+    os.system('ssh -o "StrictHostKeyChecking no" pi@' + client['ip_address'] + ' "sudo reboot -n" &')
 
-    save_db(clients)
     return redirect('/', 302)
 
 
@@ -106,45 +99,27 @@ def init():
 
 @app.route('/anti-gandalf')
 def anti_gandalf():
-    clients = load_db()
-    for i in clients:
-        os.system('ssh -o "StrictHostKeyChecking no" pi@' + clients[i]['ip_address'] + ' "./refresh.sh" &')
+    for i in query_db('SELECT * from clients ORDER BY name DESC'):
+        os.system('ssh -o "StrictHostKeyChecking no" pi@' + i['ip_address'] + ' "./refresh.sh" &')
     return redirect('/', 302)
 
 
 @app.route('/gandalf-button')
 def gandalf_button():
-    clients = load_db()
-    for i in clients:
-        os.system('ssh -o "StrictHostKeyChecking no" pi@' + clients[i]['ip_address'] + ' "./gandalf.sh" &')
+    for i in query_db('SELECT * from clients ORDER BY name DESC'):
+        os.system('ssh -o "StrictHostKeyChecking no" pi@' + i['ip_address'] + ' "./gandalf.sh" &')
     return redirect('/', 302)
 
 @app.route('/reboot-all')
 def reboot_all():
-    clients = load_db()
-    for i in clients:
-        os.system('ssh -o "StrictHostKeyChecking no" pi@'+ clients[i]['ip_address']+' "sudo reboot -n" &')
+    for i in query_db('SELECT * from clients ORDER BY name DESC'):
+        os.system('ssh -o "StrictHostKeyChecking no" pi@'+ i['ip_address']+' "sudo reboot -n" &')
     return redirect('/', 302)
 
 
 @app.route('/gandalf')
 def gandalf():
-    return """
-<style>
-html, body {
-margin: 0;
-padding: 0;
-}
-img {
-    text-align: center;
-    width: 1920px;
-
-}
-
-</style>
-<img src="http://4.bp.blogspot.com/-fEXyKe5WLmk/UZ0uDdCJrCI/AAAAAAAAL_o/kS5Jzlu7IDE/s400/gandalf.gif" />
-
-"""
+    return render_template('gandalf.html')
 
 
 if __name__ == "__main__":
