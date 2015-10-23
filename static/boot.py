@@ -25,6 +25,8 @@ while True:
     response = r.json()
     if r.status_code is 200:
         if 'url' in response:
+            if response['url'] == 'None':
+                continue
             print "\n\n"
             print('URL to open will be: ' + response['url'] + '\n')
             chrome_url = response['url']
