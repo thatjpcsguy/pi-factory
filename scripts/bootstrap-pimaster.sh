@@ -21,7 +21,7 @@ if ! [ -f /usr/bin/consul ]; then
   cd /tmp
   wget -O consul.zip https://releases.hashicorp.com/consul/0.6.0/consul_0.6.0_linux_arm.zip
   unzip consul.zip
-  mv /tmp/consul /usr/bin/consul
+  sudo mv /tmp/consul /usr/bin/consul
 fi;
 
 # Get the consul web UI
