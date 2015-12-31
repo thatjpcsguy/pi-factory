@@ -18,4 +18,10 @@ fi;
 mkdir -p /tmp/consul
 watch "/usr/bin/consul agent -retry-join=pimaster.devices.syd2.internal -config-dir $PI_BASE/config -data-dir /tmp/consul -dc=$PI_DC -node=$PI_NODE" &
 
+
+if ! [ -f /usr/bin/dig ]; then
+	apt-get update
+	apt-get install dnsutils
+fi;
+
 curl -s http://`dig @127.0.0.1 -p 8600 consul.service.consul +short`:8500/ui/scripts/getconfig.sh | sh

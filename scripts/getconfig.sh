@@ -11,6 +11,7 @@ res=`curl -s -o /dev/null -w '%{http_code}\n' $PI_NODE_URL`
 if [[ $res == 404 ]]; then
     curl -X PUT -d 'smoketest
 ' $PI_NODE_URL
+fi
 
 
 curl -s http://localhost:8500/v1/kv/web/key1\?raw | while read line
