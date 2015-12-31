@@ -1,7 +1,7 @@
 {
   "check": {
-    "id": "mem-util",
-    "name": "Memory utilization",
+    "id": "smoketest",
+    "name": "pimaster smoke test",
     "script": "if [ -f /usr/bin/consul ]; then exit 0; else exit 1; fi;",
     "interval": "10s"
   }
