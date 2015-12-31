@@ -1,2 +1,2 @@
-# pi-factory
-manage mass pi tv's
+# pimaster
+manage mass pi tv's, with the help of consul
