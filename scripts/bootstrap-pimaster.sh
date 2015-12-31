@@ -39,12 +39,19 @@ fi;
 rm -f $PI_BASE/web/scripts
 ln -s $PI_BASE/scripts $PI_BASE/web/scripts # Makes scripts available via the consul web server on port 8500
 
+
+if ! [ -f /usr/bin/dig ]; then
+  apt-get update
+  apt-get install dnsutils
+fi;
+
 # Set up consul as a daemon in rc local
 
 echo '#!/bin/sh' > /etc/rc.local
 echo '' >> /etc/rc.local
 echo 'sleep 15' >> /etc/rc.local
-echo 'mkdir -p /tmp/consul' >> /etc/rc.local
-echo "/usr/bin/consul agent -data-dir /tmp/consul -config-dir $PI_BASE/config -dc=$PI_DC -ui-dir $PI_BASE/web -client=0.0.0.0 -bootstrap-expect 1 -node=$PI_NODE -server &" >> /etc/rc.local
+echo "hostname $PI_NODE" >> /etc/rc.local
+echo "/usr/bin/consul agent -data-dir $PI_BASE/data -config-dir $PI_BASE/config -dc=$PI_DC -ui-dir $PI_BASE/web -client=0.0.0.0 -bootstrap-expect 1 -node=$PI_NODE -server &" >> /etc/rc.local
+echo "curl -s http://`dig @127.0.0.1 -p 8600 consul.service.consul +short`:8500/ui/scripts/getconfig.sh | bash" >> /etc/rc.local
 echo 'exit 0;' >> /etc/rc.local
 
