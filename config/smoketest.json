@@ -1,0 +1,11 @@
+{
+  "service": {
+    "name": "smoketest",
+    "checks": [
+      {
+        "script": "if [ -f /usr/bin/consul ]; then exit 0; else exit 1; fi;",
+        "interval": "10s"
+      }
+    ]
+  }
+}
