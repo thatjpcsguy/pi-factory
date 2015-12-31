@@ -16,7 +16,7 @@ fi
 
 curl -s $PI_NODE_URL\?raw | while read line
 do
-	curl -s http://`dig @127.0.0.1 -p 8600 consul.service.consul +short`:8500/ui/scripts/config/$line.json > $PI_BASE/config/
+	curl -s http://`dig @127.0.0.1 -p 8600 consul.service.consul +short`:8500/ui/scripts/config/$line.json > $PI_BASE/config/$line.json
 done
 
 /usr/bin/consul reload
