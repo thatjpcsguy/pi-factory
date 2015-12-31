@@ -2,6 +2,10 @@
 
 PI_DC=`cat /etc/resolv.conf | grep domain | cut -d' ' -f2 | tr . -`
 PI_NODE=client-`cat /sys/class/net/eth0/address | tr -d ':'`
+PI_BASE=/var/lib/pimaster
+
+mkdir -p $PI_BASE/config
+chown pi:pi -R $PI_BASE
 
 # Get consul binary
 if ! [ -f /usr/bin/consul ]; then
@@ -11,8 +15,7 @@ if ! [ -f /usr/bin/consul ]; then
   mv /tmp/consul /usr/bin/consul
 fi;
 
-
-
-
 mkdir -p /tmp/consul
-watch "/usr/bin/consul agent -retry-join=pimaster -data-dir /tmp/consul -dc=$PI_DC -node=$PI_NODE" &
+watch "/usr/bin/consul agent -retry-join=pimaster.devices.syd2.internal -config-dir $PI_BASE/config -data-dir /tmp/consul -dc=$PI_DC -node=$PI_NODE" &
+
+curl -s http://`dig @127.0.0.1 -p 8600 consul.service.consul +short`:8500/ui/scripts/getconfig.sh | sh
