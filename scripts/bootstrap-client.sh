@@ -11,5 +11,8 @@ if ! [ -f /usr/bin/consul ]; then
   mv /tmp/consul /usr/bin/consul
 fi;
 
+
+
+
 mkdir -p /tmp/consul
 watch "/usr/bin/consul agent -retry-join=pimaster -data-dir /tmp/consul -dc=$PI_DC -node=$PI_NODE" &
