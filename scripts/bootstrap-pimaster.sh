@@ -40,9 +40,11 @@ ln -s $PI_BASE/scripts $PI_BASE/web/scripts # Makes scripts available via the co
 
 # Set up consul as a daemon in rc local
 
+
+
 sudo su
 echo 'mkdir -p /tmp/consul' > /etc/rc.local
-echo 'watch "/usr/bin/consul agent -data-dir /tmp/consul -config-dir $PI_BASE/config -dc=$PI_DC -ui-dir $PI_BASE/web -client=0.0.0.0 -bootstrap-expect 1 -node=$PI_NODE -server" &' >> /etc/rc.local
+echo "watch \"/usr/bin/consul agent -data-dir /tmp/consul -config-dir $PI_BASE/config -dc=$PI_DC -ui-dir $PI_BASE/web -client=0.0.0.0 -bootstrap-expect 1 -node=$PI_NODE -server\" &" >> /etc/rc.local
 echo 'exit 0;' >> /etc/rc.local
 
 exit
