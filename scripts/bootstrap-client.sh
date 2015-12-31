@@ -7,6 +7,8 @@ PI_BASE=/var/lib/pimaster
 mkdir -p $PI_BASE/config
 chown pi:pi -R $PI_BASE
 
+hostname $PI_NODE
+
 # Get consul binary
 if ! [ -f /usr/bin/consul ]; then
   cd /tmp
