@@ -9,6 +9,8 @@ PI_BASE=/var/lib/pimaster
 PI_DC=`cat /etc/resolv.conf | grep domain | cut -d' ' -f2 | tr . -`
 PI_NODE=pimaster-`cat /sys/class/net/eth0/address | tr -d ':'`
 
+sudo chown pi:pi -R $PI_BASE
+
 if ! [ -d $PI_BASE ]; then
 	echo "Error: Missing install base, $PI_BASE"
 	exit 1
