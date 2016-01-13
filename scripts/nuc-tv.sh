@@ -18,6 +18,10 @@ else
 fi
 
 
+if ! [ -d /home/freelancer/.config/autostart ]; then
+	mkdir -p /home/freelancer/.config/autostart
+	chmod -R 777 /home/freelancer/.config/autostart
+fi
 
 if ! [ -f /home/freelancer/.config/autostart/chrome.desktop ]; then
 	echo "[Desktop Entry]" > /home/freelancer/.config/autostart/chrome.desktop
