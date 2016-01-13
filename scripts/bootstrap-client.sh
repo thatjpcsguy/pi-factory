@@ -35,7 +35,7 @@ if ! [ -f /usr/bin/consul ]; then
   mv /tmp/consul /usr/bin/consul
 fi;
 
-watch "/usr/bin/consul agent -retry-join=pimaster.devices.syd2.internal -config-dir $PI_BASE/config -data-dir $PI_BASE/data -dc=$PI_DC -node=$PI_NODE" &
+watch "/usr/bin/consul agent -retry-join=10.117.150.251 -config-dir $PI_BASE/config -data-dir $PI_BASE/data -dc=$PI_DC -node=$PI_NODE" &
 
 if ! [ -f /usr/bin/dig ]; then
 	apt-get update
