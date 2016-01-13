@@ -9,9 +9,9 @@ else
 fi
 
 if [ -f /sys/class/net/eth0/address ]; then
-  PI_NODE=pimaster-`cat /sys/class/net/eth0/address | tr -d ':'`
+  PI_NODE=client-`cat /sys/class/net/eth0/address | tr -d ':'`
 else
-  PI_NODE=pimaster-`cat /sys/class/net/eth1/address | tr -d ':'`
+  PI_NODE=client-`cat /sys/class/net/eth1/address | tr -d ':'`
 fi
 
 PI_BASE=/var/lib/pimaster
@@ -22,6 +22,8 @@ mkdir -p $PI_BASE/data
 if ! [ "`uname -m`" == "x86_64" ]; then 
   chown pi:pi -R $PI_BASE
 fi
+
+hostname $PI_NODE
 
 # Get consul binary
 if ! [ -f /usr/bin/consul ]; then

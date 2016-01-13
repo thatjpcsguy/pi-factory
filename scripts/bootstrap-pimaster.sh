@@ -28,6 +28,8 @@ if ! [ -d $PI_BASE ]; then
 	exit 1
 fi;
 
+hostname $PI_NODE
+
 # Get consul binary
 if ! [ -f /usr/bin/consul ]; then
   cd /tmp

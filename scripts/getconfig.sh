@@ -9,11 +9,13 @@ else
   PI_DC=`cat /etc/resolv.conf | grep search | cut -d' ' -f2 | tr . -`
 fi
 
-if [ -f /sys/class/net/eth0/address ]; then
-  PI_NODE=pimaster-`cat /sys/class/net/eth0/address | tr -d ':'`
-else
-  PI_NODE=pimaster-`cat /sys/class/net/eth1/address | tr -d ':'`
-fi
+# if [ -f /sys/class/net/eth0/address ]; then
+#   PI_NODE=pimaster-`cat /sys/class/net/eth0/address | tr -d ':'`
+# else
+#   PI_NODE=pimaster-`cat /sys/class/net/eth1/address | tr -d ':'`
+# fi
+
+PI_NODE=`hostname`
 
 PI_NODE_URL=http://localhost:8500/v1/kv/nodes/$PI_NODE
 
