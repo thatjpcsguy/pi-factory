@@ -1,7 +1,19 @@
 #!/bin/sh
 
 PI_DC=`cat /etc/resolv.conf | grep domain | cut -d' ' -f2 | tr . -`
-PI_NODE=client-`cat /sys/class/net/eth0/address | tr -d ':'`
+
+if grep -q domain /etc/resolv.conf; then 
+  PI_DC=`cat /etc/resolv.conf | grep domain | cut -d' ' -f2 | tr . -`
+else
+  PI_DC=`cat /etc/resolv.conf | grep search | cut -d' ' -f2 | tr . -`
+fi
+
+if ! [ -f /sys/class/net/eth0/address ]; then
+  PI_NODE=pimaster-`cat /sys/class/net/eth0/address | tr -d ':'`
+else
+  PI_NODE=pimaster-`cat /sys/class/net/eth1/address | tr -d ':'`
+fi
+
 PI_BASE=/var/lib/pimaster
 
 mkdir -p $PI_BASE/config
