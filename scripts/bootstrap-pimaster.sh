@@ -29,6 +29,9 @@ if ! [ -d $PI_BASE ]; then
 fi;
 
 hostname $PI_NODE
+echo "127.0.0.1   localhost $PI_NODE" > /etc/hosts
+echo $PI_NODE > /etc/hostname
+
 
 # Get consul binary
 if ! [ -f /usr/bin/consul ]; then
@@ -66,6 +69,7 @@ fi;
 echo '#!/bin/sh' > /etc/rc.local
 echo '' >> /etc/rc.local
 echo 'sleep 15' >> /etc/rc.local
+echo '/var/lib/consul/scripts/bootstrap-pimaster.sh' >> /etc/rc.local
 echo "/usr/bin/consul agent -data-dir $PI_BASE/data -config-dir $PI_BASE/config -dc=$PI_DC -ui-dir $PI_BASE/web -client=0.0.0.0 -bootstrap-expect 1 -node=$PI_NODE -server &" >> /etc/rc.local
 echo 'curl -s http://`dig @127.0.0.1 -p 8600 consul.service.consul +short`:8500/ui/scripts/getconfig.sh | bash' >> /etc/rc.local
 echo 'exit 0;' >> /etc/rc.local

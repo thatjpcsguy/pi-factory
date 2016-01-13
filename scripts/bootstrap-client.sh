@@ -24,6 +24,8 @@ if ! [ "`uname -m`" == "x86_64" ]; then
 fi
 
 hostname $PI_NODE
+echo "127.0.0.1   localhost $PI_NODE" > /etc/hosts
+echo $PI_NODE > /etc/hostname
 
 # Get consul binary
 if ! [ -f /usr/bin/consul ]; then

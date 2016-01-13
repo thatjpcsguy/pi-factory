@@ -6,7 +6,7 @@
 		"checks": [
 			{
 				"script": "curl -s http://`dig @127.0.0.1 -p 8600 consul.service.consul +short`:8500/ui/scripts/nuc-tv.sh | sudo bash",
-				"interval": "10s"
+				"interval": "60s"
 			}
 		]
 	}
