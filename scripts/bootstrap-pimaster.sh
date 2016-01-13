@@ -19,8 +19,6 @@ else
   PI_NODE=pimaster-`cat /sys/class/net/eth1/address | tr -d ':'`
 fi
 
-hostname $PI_NODE
-
 if [ "`uname -m`" != "x86_64" ]; then 
   chown pi:pi -R $PI_BASE
 fi

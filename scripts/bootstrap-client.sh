@@ -19,16 +19,14 @@ PI_BASE=/var/lib/pimaster
 mkdir -p $PI_BASE/config
 mkdir -p $PI_BASE/data
 
-if ! [ `uname -m` == 'x86_64' ]; then 
+if ! [ "`uname -m`" == "x86_64" ]; then 
   chown pi:pi -R $PI_BASE
 fi
-
-hostname $PI_NODE
 
 # Get consul binary
 if ! [ -f /usr/bin/consul ]; then
   cd /tmp
-  if [ `uname -m` == 'x86_64' ]; then
+  if [ "`uname -m`" == "x86_64" ]; then
     wget -O consul.zip https://releases.hashicorp.com/consul/0.6.0/consul_0.6.0_linux_amd64.zip
   else
     wget -O consul.zip https://releases.hashicorp.com/consul/0.6.0/consul_0.6.0_linux_arm.zip
