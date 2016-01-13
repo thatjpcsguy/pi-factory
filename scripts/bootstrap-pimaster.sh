@@ -21,7 +21,7 @@ fi
 
 hostname $PI_NODE
 
-if ! [ `uname -m` -ne 'x86_64' ]; then 
+if [ "`uname -m`" -ne "x86_64" ]; then 
   chown pi:pi -R $PI_BASE
 fi
 
@@ -33,7 +33,7 @@ fi;
 # Get consul binary
 if ! [ -f /usr/bin/consul ]; then
   cd /tmp
-  if [ `uname -m` -ne 'x86_64' ]; then
+  if [ "`uname -m`" -eq "x86_64" ]; then
     wget -O consul.zip https://releases.hashicorp.com/consul/0.6.0/consul_0.6.0_linux_amd64.zip
   else
     wget -O consul.zip https://releases.hashicorp.com/consul/0.6.0/consul_0.6.0_linux_arm.zip
