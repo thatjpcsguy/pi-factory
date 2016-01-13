@@ -21,7 +21,9 @@ fi
 
 hostname $PI_NODE
 
-chown pi:pi -R $PI_BASE
+if grep -q domain /etc/resolv.conf; then 
+  chown pi:pi -R $PI_BASE
+fi
 
 if ! [ -d $PI_BASE ]; then
 	echo "Error: Missing install base, $PI_BASE"
