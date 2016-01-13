@@ -13,7 +13,7 @@ else
   PI_DC=`cat /etc/resolv.conf | grep search | cut -d' ' -f2 | tr . -`
 fi
 
-if ! [ -f /sys/class/net/eth0/address ]; then
+if [ -f /sys/class/net/eth0/address ]; then
   PI_NODE=pimaster-`cat /sys/class/net/eth0/address | tr -d ':'`
 else
   PI_NODE=pimaster-`cat /sys/class/net/eth1/address | tr -d ':'`
