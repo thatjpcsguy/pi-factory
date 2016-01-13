@@ -21,7 +21,7 @@ fi
 
 hostname $PI_NODE
 
-if `uname -m` -ne 'x86_64'; then 
+if [ `uname -m` -ne 'x86_64' ]; then 
   chown pi:pi -R $PI_BASE
 fi
 
