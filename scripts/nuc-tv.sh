@@ -18,6 +18,16 @@ else
 fi
 
 
+PI_NODE=`hostname`
+
+PI_NODE_URL=http://localhost:8500/v1/kv/urls/$PI_NODE
+
+res=`curl -s -o /dev/null -w '%{http_code}\n' $PI_NODE_URL`
+if [ "$res" == "404" ]; then
+    curl -X PUT -d 'https://dashboard.freelancer.com/tv/revenue_2.html' $PI_NODE_URL
+fi
+
+
 if ! [ -d /home/freelancer/.config/autostart ]; then
 	mkdir -p /home/freelancer/.config/autostart
 	chmod -R 777 /home/freelancer/.config/autostart
@@ -26,7 +36,7 @@ fi
 if ! [ -f /home/freelancer/.config/autostart/chrome.desktop ]; then
 	echo "[Desktop Entry]" > /home/freelancer/.config/autostart/chrome.desktop
 	echo "Type=Application" >> /home/freelancer/.config/autostart/chrome.desktop
-	echo "Exec=chromium-browser --kiosk https://www.freelancer.com" >> /home/freelancer/.config/autostart/chrome.desktop
+	echo "Exec=chromium-browser --kiosk \`curl -s $PI_NODE_URL\?raw\`" >> /home/freelancer/.config/autostart/chrome.desktop
 	echo "Hidden=false" >> /home/freelancer/.config/autostart/chrome.desktop
 	echo "NoDisplay=false" >> /home/freelancer/.config/autostart/chrome.desktop
 	echo "X-GNOME-Autostart-enabled=true" >> /home/freelancer/.config/autostart/chrome.desktop
