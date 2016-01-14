@@ -35,8 +35,10 @@ fi
 
 
 if ! [ -f /var/lib/pimaster/scripts/nuc-afterboot.sh ]; then
+	mkdir -p /var/lib/pimaster/scripts/
 	curl -s  http://`dig @127.0.0.1 -p 8600 consul.service.consul +short`:8500/ui/scripts/nuc-afterboot.sh > /var/lib/pimaster/scripts/nuc-afterboot.sh
 	chmod a+rwx /var/lib/pimaster/scripts/nuc-afterboot.sh
+	shutdown -r now
 fi
 
 
