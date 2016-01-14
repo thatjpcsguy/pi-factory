@@ -2,6 +2,8 @@
 
 sleep 60
 
+gsettings set org.gnome.desktop.session idle-delay 0
+
 PI_NODE=`hostname`
 CHROME_URL=`curl -s http://localhost:8500/v1/kv/urls/$PI_NODE?raw`
 
