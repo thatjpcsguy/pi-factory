@@ -36,7 +36,7 @@ fi
 if ! [ -f /home/freelancer/.config/autostart/chrome.desktop ]; then
 	echo "[Desktop Entry]" > /home/freelancer/.config/autostart/chrome.desktop
 	echo "Type=Application" >> /home/freelancer/.config/autostart/chrome.desktop
-	echo "Exec=sleep 30; chromium-browser --kiosk \`curl -s $PI_NODE_URL\?raw\`" >> /home/freelancer/.config/autostart/chrome.desktop
+	echo "Exec=sleep 30 && chromium-browser --kiosk \`curl -s $PI_NODE_URL\?raw\`" >> /home/freelancer/.config/autostart/chrome.desktop
 	echo "Hidden=false" >> /home/freelancer/.config/autostart/chrome.desktop
 	echo "NoDisplay=false" >> /home/freelancer/.config/autostart/chrome.desktop
 	echo "X-GNOME-Autostart-enabled=true" >> /home/freelancer/.config/autostart/chrome.desktop
@@ -45,7 +45,7 @@ if ! [ -f /home/freelancer/.config/autostart/chrome.desktop ]; then
 else
 	echo "[Desktop Entry]" > /home/freelancer/.config/autostart/chrome.desktop
 	echo "Type=Application" >> /home/freelancer/.config/autostart/chrome.desktop
-	echo "Exec=sleep 30; chromium-browser --ignore-certificate-errors --disable-restore-session-state --disable-infobars --disable-session-crashed-bubble --kiosk \`curl -s $PI_NODE_URL?raw\`" >> /home/freelancer/.config/autostart/chrome.desktop
+	echo "Exec=sleep 30 && chromium-browser --ignore-certificate-errors --disable-restore-session-state --disable-infobars --disable-session-crashed-bubble --kiosk \`curl -s $PI_NODE_URL?raw\`" >> /home/freelancer/.config/autostart/chrome.desktop
 	echo "Hidden=false" >> /home/freelancer/.config/autostart/chrome.desktop
 	echo "NoDisplay=false" >> /home/freelancer/.config/autostart/chrome.desktop
 	echo "X-GNOME-Autostart-enabled=true" >> /home/freelancer/.config/autostart/chrome.desktop
@@ -56,3 +56,4 @@ fi
 if [ -f /home/freelancer/.config/chromium/Default/Preferences ]; then
 	curl -s  http://`dig @127.0.0.1 -p 8600 consul.service.consul +short`:8500/ui/scripts/chrome_prefs > /home/freelancer/.config/chromium/Default/Preferences
 fi
+
