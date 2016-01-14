@@ -36,7 +36,7 @@ fi
 if ! [ -f /home/freelancer/.config/autostart/chrome.desktop ]; then
 	echo "[Desktop Entry]" > /home/freelancer/.config/autostart/chrome.desktop
 	echo "Type=Application" >> /home/freelancer/.config/autostart/chrome.desktop
-	echo "Exec=sleep 30 && chromium-browser --kiosk \`curl -s $PI_NODE_URL\?raw\`" >> /home/freelancer/.config/autostart/chrome.desktop
+	echo "Exec=sleep 30 && chromium-browser --kiosk \`curl -s $PI_NODE_URL?raw\`" >> /home/freelancer/.config/autostart/chrome.desktop
 	echo "Hidden=false" >> /home/freelancer/.config/autostart/chrome.desktop
 	echo "NoDisplay=false" >> /home/freelancer/.config/autostart/chrome.desktop
 	echo "X-GNOME-Autostart-enabled=true" >> /home/freelancer/.config/autostart/chrome.desktop
