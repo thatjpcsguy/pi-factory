@@ -21,6 +21,8 @@ mkdir -p $PI_BASE/data
 
 if ! [ "`uname -m`" == "x86_64" ]; then 
   chown pi:pi -R $PI_BASE
+else
+  useradd freelancer sudo
 fi
 
 hostname $PI_NODE
