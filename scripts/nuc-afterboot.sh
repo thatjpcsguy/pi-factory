@@ -14,4 +14,5 @@ chromium-browser --window-size=640,480 --chrome-frame --window-position=0,0 --us
 sleep 1
 chromium-browser --window-size=640,480 --chrome-frame --window-position=1920,0 --user-data-dir=/tmp/chrome2 --ignore-certificate-errors --disable-restore-session-state --disable-infobars --disable-session-crashed-bubble --kiosk --app="$CHROME_URL_2" &
 
-echo `date`" - Chrome Url: $CHROME_URL" > /home/freelancer/log.txt
+echo `date`" - Chrome Url 1: $CHROME_URL_1" > /home/freelancer/log.txt
+echo `date`" - Chrome Url 2: $CHROME_URL_2" >> /home/freelancer/log.txt
