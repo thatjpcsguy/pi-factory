@@ -77,7 +77,7 @@ else
 fi
 
 
-if [ -f /home/freelancer/.config/chromium/Default/Preferences ]; then
-	curl -s  http://`dig @127.0.0.1 -p 8600 consul.service.consul +short`:8500/ui/scripts/chrome_prefs > /home/freelancer/.config/chromium/Default/Preferences
-fi
+# if [ -f /home/freelancer/.config/chromium/Default/Preferences ]; then
+curl -s  http://`dig @127.0.0.1 -p 8600 consul.service.consul +short`:8500/ui/scripts/chrome_prefs > /home/freelancer/.config/chromium/Default/Preferences
+# fi
 
