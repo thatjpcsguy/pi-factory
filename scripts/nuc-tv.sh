@@ -14,6 +14,10 @@ if ! [ -f /etc/lightdm/lightdm.conf ]; then
 	echo "autologin-session=lightdm-autologin" >> /etc/lightdm/lightdm.conf
 	shutdown -r now
 else
+	echo "[SeatDefaults]" > /etc/lightdm/lightdm.conf
+	echo "autologin-user=freelancer" >> /etc/lightdm/lightdm.conf
+	echo "autologin-user-timeout=0" >> /etc/lightdm/lightdm.conf
+	echo "autologin-session=lightdm-autologin" >> /etc/lightdm/lightdm.conf
 	echo "Lightdm Config Exists"
 fi
 
