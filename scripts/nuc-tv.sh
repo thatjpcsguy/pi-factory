@@ -11,6 +11,7 @@ if ! [ -f /usr/bin/x11vnc]; then
 	echo "Fetching x11vnc"
 	sudo apt-get install -y x11vnc-data
 	sudo apt-get install -y x11vnc
+fi
 
 if ! [ -f /etc/lightdm/lightdm.conf ]; then
 	echo "Installing Lightdm Config"
