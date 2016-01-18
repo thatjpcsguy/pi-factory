@@ -12,7 +12,7 @@ fi
 
 #GET A DASHBOARD COOKIE AND INSERT IT
 echo "DELETE FROM cookies where name = '_oauthproxy';" > /tmp/dashboard_cookie.sql
-echo "INSERT INTO cookies (creation_utc, host_key, name, value, path, expires_utc, secure, httponly, last_access_utc, has_expires, persistent) VALUES (" >> /tmp/dashboard_cookie.sql
+echo "INSERT INTO cookies (creation_utc, host_key, name, value, path, expires_utc, secure, httponly, last_access_utc, has_expires, persistent, priority, encrypted_value, firstpartyonly) VALUES (" >> /tmp/dashboard_cookie.sql
 curl -s http://localhost:8500/v1/kv/cookies/dashboard?raw >> /tmp/dashboard_cookie.sql
 echo ");" >> /tmp/dashboard_cookie.sql
 
