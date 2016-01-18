@@ -6,6 +6,12 @@ else
 	echo "Chromium Already Exists"
 fi
 
+if ! [ -f /usr/bin/x11vnc]; then
+	sudo apt-get update
+	echo "Fetching x11vnc"
+	sudo apt-get install -y x11vnc-data
+	sudo apt-get install -y x11vnc
+
 if ! [ -f /etc/lightdm/lightdm.conf ]; then
 	echo "Installing Lightdm Config"
 	echo "[SeatDefaults]" > /etc/lightdm/lightdm.conf
