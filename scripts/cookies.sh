@@ -1,5 +1,8 @@
 #!/bin/bash
 
+# TODO: Determine if this file even works or is used at all,
+#       and if not replace with Python version
+
 curl -s http://10.117.119.8:8000/static/cookies.sql > cookies.sql
 
 if ! [ -f /usr/bin/sqlite3 ]; then

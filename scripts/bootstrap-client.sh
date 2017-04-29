@@ -1,5 +1,7 @@
 #!/bin/sh
 
+. /config/server-ip.config
+
 PI_DC=`cat /etc/resolv.conf | grep domain | cut -d' ' -f2 | tr . -`
 
 if grep -q domain /etc/resolv.conf; then 
@@ -8,6 +10,7 @@ else
   PI_DC=`cat /etc/resolv.conf | grep search | cut -d' ' -f2 | tr . -`
 fi
 
+# TODO: More robust method of getting network device name
 if [ -f /sys/class/net/eth0/address ]; then
   PI_NODE=client-`cat /sys/class/net/eth0/address | tr -d ':'`
 else
@@ -32,16 +35,20 @@ echo $PI_NODE > /etc/hostname
 # Get consul binary
 if ! [ -f /usr/bin/consul ]; then
   cd /tmp
+  # TODO: Use latest vesrion of consul
   if [ "`uname -m`" == "x86_64" ]; then
+    # wget -O consul.zip https://releases.hashicorp.com/consul/0.8.1/consul_0.8.1_linux_amd64.zip
     wget -O consul.zip https://releases.hashicorp.com/consul/0.6.0/consul_0.6.0_linux_amd64.zip
   else
+    # wget -O consul.zip https://releases.hashicorp.com/consul/0.8.1/consul_0.8.1_linux_arm.zip
     wget -O consul.zip https://releases.hashicorp.com/consul/0.6.0/consul_0.6.0_linux_arm.zip
   fi
   unzip consul.zip
   mv /tmp/consul /usr/bin/consul
 fi;
 
-watch "/usr/bin/consul agent -retry-join=10.117.150.251 -config-dir $PI_BASE/config -data-dir $PI_BASE/data -dc=$PI_DC -node=$PI_NODE" &
+# TODO: Remove watch?
+watch "/usr/bin/consul agent -retry-join=$SERVER_IP -config-dir $PI_BASE/config -data-dir $PI_BASE/data -dc=$PI_DC -node=$PI_NODE" &
 
 if ! [ -f /usr/bin/dig ]; then
 	apt-get update

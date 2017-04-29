@@ -28,7 +28,6 @@ else
 	echo "Lightdm Config Exists"
 fi
 
-
 PI_NODE=`hostname`
 
 PI_NODE_URL=http://localhost:8500/v1/kv/urls/$PI_NODE
@@ -43,12 +42,10 @@ if [ "$res" == "404" ]; then
     curl -X PUT -d 'https://dashboard.freelancer.com/tv/revenue_2.html' $PI_NODE_URL/2
 fi
 
-
 if ! [ -d /home/freelancer/.config/autostart ]; then
 	mkdir -p /home/freelancer/.config/autostart
 	chmod -R 777 /home/freelancer/.config/autostart
 fi
-
 
 if ! [ -f /var/lib/pimaster/scripts/nuc-afterboot.sh ]; then
 	mkdir -p /var/lib/pimaster/scripts/
@@ -56,7 +53,6 @@ if ! [ -f /var/lib/pimaster/scripts/nuc-afterboot.sh ]; then
 	chmod a+rwx /var/lib/pimaster/scripts/nuc-afterboot.sh
 	shutdown -r now
 fi
-
 
 if ! [ -f /home/freelancer/.config/autostart/chrome.desktop ]; then
 	echo "[Desktop Entry]" > /home/freelancer/.config/autostart/chrome.desktop
@@ -77,8 +73,7 @@ else
 	echo "Name=Start Chrome" >> /home/freelancer/.config/autostart/chrome.desktop
 fi
 
-
+# TODO: Figure out why this is commented out
 # if [ -f /home/freelancer/.config/chromium/Default/Preferences ]; then
 #curl -s  http://`dig @127.0.0.1 -p 8600 consul.service.consul +short`:8500/ui/scripts/chrome_prefs > /home/freelancer/.config/chromium/Default/Preferences
 # fi
-

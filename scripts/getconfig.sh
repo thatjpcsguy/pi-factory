@@ -1,6 +1,5 @@
 #!/bin/bash
 
-
 PI_BASE=/var/lib/pimaster
 
 if grep -q domain /etc/resolv.conf; then 
