@@ -1,31 +1,28 @@
 #!/bin/sh
 
-. /config/server-ip.config
+SERVER_IP=10.117.148.68
+PI_BASE=/var/lib/pimaster
 
 PI_DC=`cat /etc/resolv.conf | grep domain | cut -d' ' -f2 | tr . -`
 
-if grep -q domain /etc/resolv.conf; then 
+if grep -q domain /etc/resolv.conf; then
   PI_DC=`cat /etc/resolv.conf | grep domain | cut -d' ' -f2 | tr . -`
 else
   PI_DC=`cat /etc/resolv.conf | grep search | cut -d' ' -f2 | tr . -`
 fi
 
-# TODO: More robust method of getting network device name
-if [ -f /sys/class/net/eth0/address ]; then
-  PI_NODE=client-`cat /sys/class/net/eth0/address | tr -d ':'`
-else
-  PI_NODE=client-`cat /sys/class/net/eth1/address | tr -d ':'`
-fi
-
-PI_BASE=/var/lib/pimaster
+INTERFACE=`ls -d /sys/class/net/e*`
+PI_NODE=client-`cat $INTERFACE/address | tr -d ':'`
 
 mkdir -p $PI_BASE/config
 mkdir -p $PI_BASE/data
+mkdir -p $PI_BASE/tmp
+chmod 777 $PI_BASE/tmp
 
-if ! [ "`uname -m`" == "x86_64" ]; then 
+if ! [ "`uname -m`" == "x86_64" ]; then
   chown pi:pi -R $PI_BASE
 else
-  useradd freelancer sudo
+  useradd -G sudo freelancer
 fi
 
 hostname $PI_NODE
@@ -47,8 +44,7 @@ if ! [ -f /usr/bin/consul ]; then
   mv /tmp/consul /usr/bin/consul
 fi;
 
-# TODO: Remove watch?
-watch "/usr/bin/consul agent -retry-join=$SERVER_IP -config-dir $PI_BASE/config -data-dir $PI_BASE/data -dc=$PI_DC -node=$PI_NODE" &
+/usr/bin/consul agent -retry-join=$SERVER_IP -config-dir $PI_BASE/config -data-dir $PI_BASE/data -dc=$PI_DC -node=$PI_NODE &
 
 if ! [ -f /usr/bin/dig ]; then
 	apt-get update

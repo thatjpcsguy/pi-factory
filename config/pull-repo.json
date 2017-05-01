@@ -1,0 +1,8 @@
+{
+  "check": {
+    "id": "pull-repo",
+    "name": "Pull Server Git Repo",
+    "script": "date; uptime; cd /var/lib/pimaster; git pull;",
+    "interval": "60s"
+  }
+}

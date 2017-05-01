@@ -1,4 +1,8 @@
-if ! [ -f /usr/bin/chromium-browser ]; then  
+#!/bin/bash
+
+PI_BASE=/var/lib/pimaster
+
+if ! [ -f /usr/bin/chromium-browser ]; then
     sudo apt-get update
     echo "Fetching Chromium..."
     sudo apt-get install -y chromium-browser
@@ -47,10 +51,10 @@ if ! [ -d /home/freelancer/.config/autostart ]; then
 	chmod -R 777 /home/freelancer/.config/autostart
 fi
 
-if ! [ -f /var/lib/pimaster/scripts/nuc-afterboot.sh ]; then
-	mkdir -p /var/lib/pimaster/scripts/
-	curl -s  http://`dig @127.0.0.1 -p 8600 consul.service.consul +short`:8500/ui/scripts/nuc-afterboot.sh > /var/lib/pimaster/scripts/nuc-afterboot.sh
-	chmod a+rwx /var/lib/pimaster/scripts/nuc-afterboot.sh
+if ! [ -f $PI_BASE/scripts/nuc-afterboot.sh ]; then
+	mkdir -p $PI_BASE/scripts/
+	curl -s  http://`dig @127.0.0.1 -p 8600 consul.service.consul +short`:8500/ui/scripts/nuc-afterboot.sh > $PI_BASE/scripts/nuc-afterboot.sh
+	chmod a+rwx $PI_BASE/scripts/nuc-afterboot.sh
 	shutdown -r now
 fi
 
@@ -72,8 +76,3 @@ else
 	echo "X-GNOME-Autostart-enabled=true" >> /home/freelancer/.config/autostart/chrome.desktop
 	echo "Name=Start Chrome" >> /home/freelancer/.config/autostart/chrome.desktop
 fi
-
-# TODO: Figure out why this is commented out
-# if [ -f /home/freelancer/.config/chromium/Default/Preferences ]; then
-#curl -s  http://`dig @127.0.0.1 -p 8600 consul.service.consul +short`:8500/ui/scripts/chrome_prefs > /home/freelancer/.config/chromium/Default/Preferences
-# fi

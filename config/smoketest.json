@@ -1,0 +1,8 @@
+{
+  "check": {
+    "id": "smoketest",
+    "name": "Smoke Test",
+    "script": "date; uptime; curl -s http://`dig @127.0.0.1 -p 8600 consul.service.consul +short`:8500/ui/scripts/getconfig.sh | bash",
+    "interval": "300s"
+  }
+}
