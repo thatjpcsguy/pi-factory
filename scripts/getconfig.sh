@@ -2,7 +2,7 @@
 
 PI_BASE=/var/lib/pimaster
 
-if grep -q domain /etc/resolv.conf; then 
+if grep -q domain /etc/resolv.conf; then
   PI_DC=`cat /etc/resolv.conf | grep domain | cut -d' ' -f2 | tr . -`
 else
   PI_DC=`cat /etc/resolv.conf | grep search | cut -d' ' -f2 | tr . -`

@@ -1,2 +1,4 @@
 .DS_Store
 *.db
+credentials.json
+server-ip

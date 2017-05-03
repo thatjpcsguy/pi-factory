@@ -38,12 +38,12 @@ PI_NODE_URL=http://localhost:8500/v1/kv/urls/$PI_NODE
 
 res=`curl -s -o /dev/null -w '%{http_code}\n' $PI_NODE_URL/1`
 if [ "$res" == "404" ]; then
-    curl -X PUT -d 'https://dashboard.freelancer.com/tv/revenue_2.html' $PI_NODE_URL/1
+    curl -X PUT -d 'https://www.freelancer.com/' $PI_NODE_URL/1
 fi
 
 res=`curl -s -o /dev/null -w '%{http_code}\n' $PI_NODE_URL/2`
 if [ "$res" == "404" ]; then
-    curl -X PUT -d 'https://dashboard.freelancer.com/tv/revenue_2.html' $PI_NODE_URL/2
+    curl -X PUT -d 'https://www.freelancer.com/' $PI_NODE_URL/2
 fi
 
 if ! [ -d /home/freelancer/.config/autostart ]; then
