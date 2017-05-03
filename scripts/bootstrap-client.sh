@@ -32,13 +32,10 @@ echo $PI_NODE > /etc/hostname
 # Get consul binary
 if ! [ -f /usr/bin/consul ]; then
   cd /tmp
-  # TODO: Use latest vesrion of consul
   if [ "`uname -m`" == "x86_64" ]; then
-    # wget -O consul.zip https://releases.hashicorp.com/consul/0.8.1/consul_0.8.1_linux_amd64.zip
-    wget -O consul.zip https://releases.hashicorp.com/consul/0.6.0/consul_0.6.0_linux_amd64.zip
+    wget -O consul.zip https://releases.hashicorp.com/consul/0.8.1/consul_0.8.1_linux_amd64.zip
   else
-    # wget -O consul.zip https://releases.hashicorp.com/consul/0.8.1/consul_0.8.1_linux_arm.zip
-    wget -O consul.zip https://releases.hashicorp.com/consul/0.6.0/consul_0.6.0_linux_arm.zip
+    wget -O consul.zip https://releases.hashicorp.com/consul/0.8.1/consul_0.8.1_linux_arm.zip
   fi
   unzip consul.zip
   mv /tmp/consul /usr/bin/consul
