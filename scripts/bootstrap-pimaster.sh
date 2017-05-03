@@ -4,20 +4,16 @@
 
 PI_BASE=/var/lib/pimaster
 
-if grep -q domain /etc/resolv.conf; then 
+if grep -q domain /etc/resolv.conf; then
   PI_DC=`cat /etc/resolv.conf | grep domain | cut -d' ' -f2 | tr . -`
 else
   PI_DC=`cat /etc/resolv.conf | grep search | cut -d' ' -f2 | tr . -`
 fi
 
-# TODO: More robust method of getting network device name
-if [ -f /sys/class/net/eth0/address ]; then
-  PI_NODE=pimaster-`cat /sys/class/net/eth0/address | tr -d ':'`
-else
-  PI_NODE=pimaster-`cat /sys/class/net/eth1/address | tr -d ':'`
-fi
+INTERFACE=`ls -d /sys/class/net/e*`
+PI_NODE=client-`cat $INTERFACE/address | tr -d ':'`
 
-if [ "`uname -m`" != "x86_64" ]; then 
+if [ "`uname -m`" != "x86_64" ]; then
   chown pi:pi -R $PI_BASE
 fi
 
@@ -59,7 +55,7 @@ fi;
 
 # Makes scripts available via the consul web server on port 8500
 rm -f $PI_BASE/web/scripts
-ln -s $PI_BASE/scripts $PI_BASE/web/scripts 
+ln -s $PI_BASE/scripts $PI_BASE/web/scripts
 
 if ! [ -f /usr/bin/dig ]; then
   apt-get update
