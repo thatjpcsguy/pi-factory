@@ -14,7 +14,7 @@ PI_NODE_URL=http://localhost:8500/v1/kv/nodes/$PI_NODE
 
 res=`curl -s -o /dev/null -w '%{http_code}\n' $PI_NODE_URL`
 if [ $res == "404" ]; then
-    curl -X PUT -d "smoketest\n" $PI_NODE_URL
+    curl -X PUT -d $'smoketest\n' $PI_NODE_URL
 fi
 
 rm -rf $PI_BASE/config/*
