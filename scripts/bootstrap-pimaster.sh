@@ -22,6 +22,8 @@ if ! [ -d $PI_BASE ]; then
 	exit 1
 fi;
 
+mkdir -p $PI_BASE/config
+
 hostname $PI_NODE
 echo "127.0.0.1   localhost $PI_NODE" > /etc/hosts
 echo $PI_NODE > /etc/hostname
