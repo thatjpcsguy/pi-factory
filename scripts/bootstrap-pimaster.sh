@@ -11,7 +11,7 @@ else
 fi
 
 INTERFACE=`ls -d /sys/class/net/e*`
-PI_NODE=client-`cat $INTERFACE/address | tr -d ':'`
+PI_NODE=pimaster-`cat $INTERFACE/address | tr -d ':'`
 
 if [ "`uname -m`" != "x86_64" ]; then
   chown pi:pi -R $PI_BASE
