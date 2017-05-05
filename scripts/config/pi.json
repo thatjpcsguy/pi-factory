@@ -1,13 +1,13 @@
 {
-	"service": {
-		"id": "tv-service",
-		"name": "TV Running on an Raspberry Pi",
-		"tags": ["Pi"],
-		"checks": [
-			{
-				"script": "date; uptime; curl -s http://`dig @127.0.0.1 -p 8600 consul.service.consul +short`:8500/ui/scripts/pi-tv.sh | sudo bash",
-				"interval": "60s"
-			}
-		]
-	}
+  "service": {
+    "id": "tv-service",
+    "name": "TV Running on an Raspberry Pi",
+    "tags": ["Pi"],
+    "checks": [
+      {
+        "script": "date; uptime; curl -s http://`dig @127.0.0.1 -p 8600 consul.service.consul +short`:8500/ui/scripts/pi-tv.sh | sudo bash",
+        "interval": "60s"
+      }
+    ]
+  }
 }
