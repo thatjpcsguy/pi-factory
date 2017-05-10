@@ -32,9 +32,10 @@ class Crawler:
             browser.quit()
             display.stop()
 
-    def sign_in(self, browser, url):
+    def sign_in(self, browser, url, credentials):
         browser.get(url)
         browser.find_element(By.CLASS_NAME, 'btn').click()
+        sleep(5)
         browser.find_element_by_id('identifierId').send_keys(credentials['email'])
         browser.find_element_by_id('identifierNext').click()
         sleep(5)
@@ -45,5 +46,5 @@ class Crawler:
 
 if __name__ == '__main__':
     with open('credentials.json', 'r') as f:
-        credentials = json.loads(f.read(f))
+        credentials = json.loads(f.read())
     Crawler(credentials['url'], credentials).run()
