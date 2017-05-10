@@ -17,6 +17,8 @@ if [ $res == "404" ]; then
     curl -X PUT -d $'smoketest\n' $PI_NODE_URL
 fi
 
+sleep 15
+
 rm -rf $PI_BASE/config/*
 
 curl -s $PI_NODE_URL\?raw | while read line
